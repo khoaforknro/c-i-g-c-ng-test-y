@@ -4,31 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khoa Photography</title>
+
     <style>
         body {
             margin: 0;
             font-family: 'Helvetica Neue', sans-serif;
-            background: #f7fafc;
+            background: #f8fbfd;
             color: #333;
+            overflow-x: hidden;
         }
 
+        /* HEADER */
         header {
-            background: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
             padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            transition: 0.3s;
+            z-index: 100;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
 
         header h1 {
             margin: 0;
             font-size: 22px;
-            letter-spacing: 1px;
             color: #2b7a78;
+            letter-spacing: 1px;
         }
 
         nav a {
@@ -38,25 +47,44 @@
             font-weight: 500;
         }
 
+        /* HERO */
         .hero {
-            height: 80vh;
+            height: 100vh;
             background: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80") center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
-            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.25);
         }
 
         .hero h2 {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 700;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1.2s ease forwards;
         }
 
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* SECTION */
         .section {
-            padding: 80px 60px;
+            padding: 100px 60px;
         }
 
         .section h3 {
@@ -65,12 +93,18 @@
             color: #2b7a78;
         }
 
-        .about {
-            max-width: 800px;
-            line-height: 1.7;
-            font-size: 18px;
+        .fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s ease;
         }
 
+        .fade.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* GALLERY */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -80,21 +114,21 @@
 
         .gallery img {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 12px;
             object-fit: cover;
+            transition: 0.4s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
         }
 
         .gallery img:hover {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
 
+        /* FOOTER */
         footer {
             text-align: center;
-            padding: 40px;
+            padding: 50px;
             background: #def2f1;
-            color: #333;
             margin-top: 40px;
         }
 
@@ -115,9 +149,10 @@
         }
     </style>
 </head>
+
 <body>
 
-<header>
+<header id="header">
     <h1>KHOA PHOTOGRAPHY</h1>
     <nav>
         <a href="#about">Giới thiệu</a>
@@ -127,19 +162,19 @@
 </header>
 
 <section class="hero">
-    <h2>Ghi lại khoảnh khắc theo cách tinh tế nhất</h2>
+    <h2>Khoảnh khắc – Ánh sáng – Cảm xúc</h2>
 </section>
 
-<section class="section" id="about">
+<section class="section fade" id="about">
     <h3>Giới thiệu</h3>
-    <p class="about">
-        Xin chào, mình là Khoa – một nhiếp ảnh gia yêu thích ánh sáng tự nhiên, màu sắc tươi sáng và những khoảnh khắc chân thật.
-        Mình theo đuổi phong cách tối giản, tập trung vào cảm xúc và câu chuyện đằng sau mỗi bức ảnh.
-        Portfolio này là nơi mình lưu giữ những tác phẩm tâm đắc nhất trong hành trình sáng tạo của mình.
+    <p style="max-width: 800px; line-height: 1.7; font-size: 18px;">
+        Mình là Khoa – nhiếp ảnh gia theo đuổi phong cách tự nhiên, tươi sáng và cảm xúc.
+        Mỗi bức ảnh là một câu chuyện, một khoảnh khắc không thể lặp lại.
+        Portfolio này là nơi mình lưu giữ những tác phẩm đẹp nhất trong hành trình sáng tạo.
     </p>
 </section>
 
-<section class="section" id="gallery">
+<section class="section fade" id="gallery">
     <h3>Bộ sưu tập</h3>
     <div class="gallery">
         <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?auto=format&fit=crop&w=800&q=80">
@@ -156,6 +191,25 @@
     <p>Email: khoaphoto@example.com</p>
     <a class="contact-btn" href="mailto:khoaphoto@example.com">Gửi email</a>
 </footer>
+
+<script>
+    // Header đổi màu khi scroll
+    const header = document.getElementById("header");
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) header.classList.add("scrolled");
+        else header.classList.remove("scrolled");
+    });
+
+    // Fade-in khi cuộn
+    const fades = document.querySelectorAll(".fade");
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add("show");
+        });
+    }, { threshold: 0.2 });
+
+    fades.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
