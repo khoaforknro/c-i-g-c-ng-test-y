@@ -8,9 +8,9 @@
     <style>
         body {
             margin: 0;
-            font-family: 'Helvetica Neue', sans-serif;
-            background: #f8fbfd;
-            color: #333;
+            background: #0f0f0f;
+            color: #e5e5e5;
+            font-family: "Inter", sans-serif;
             overflow-x: hidden;
         }
 
@@ -19,60 +19,65 @@
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 20px 60px;
+            padding: 25px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: 0.3s;
             z-index: 100;
+            transition: 0.3s ease;
         }
 
         header.scrolled {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(0,0,0,0.75);
             backdrop-filter: blur(10px);
         }
 
         header h1 {
-            margin: 0;
-            font-size: 22px;
-            color: #2b7a78;
-            letter-spacing: 1px;
+            font-size: 20px;
+            letter-spacing: 3px;
+            font-weight: 300;
         }
 
         nav a {
-            margin-left: 25px;
+            margin-left: 30px;
             text-decoration: none;
-            color: #333;
-            font-weight: 500;
+            color: #e5e5e5;
+            font-size: 14px;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
         }
 
         /* HERO */
         .hero {
             height: 100vh;
             background: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80") center/cover;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            color: white;
-            position: relative;
         }
 
         .hero::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.25);
+            background: rgba(0,0,0,0.45);
         }
 
         .hero h2 {
-            font-size: 52px;
-            font-weight: 700;
+            position: relative;
             z-index: 2;
+            font-size: 54px;
+            font-weight: 300;
+            letter-spacing: 4px;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeUp 1.2s ease forwards;
+            animation: fadeUp 1.5s ease forwards;
         }
 
         @keyframes fadeUp {
@@ -84,19 +89,22 @@
 
         /* SECTION */
         .section {
-            padding: 100px 60px;
+            padding: 120px 60px;
+            max-width: 1200px;
+            margin: auto;
         }
 
         .section h3 {
-            font-size: 32px;
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 2px;
             margin-bottom: 20px;
-            color: #2b7a78;
         }
 
         .fade {
             opacity: 0;
-            transform: translateY(30px);
-            transition: 0.8s ease;
+            transform: translateY(40px);
+            transition: 1s ease;
         }
 
         .fade.show {
@@ -104,48 +112,75 @@
             transform: translateY(0);
         }
 
-        /* GALLERY */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
+        /* MASONRY GALLERY */
+        .masonry {
+            column-count: 3;
+            column-gap: 20px;
         }
 
-        .gallery img {
+        .masonry img {
             width: 100%;
-            border-radius: 12px;
-            object-fit: cover;
-            transition: 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-radius: 6px;
+            transition: 0.3s ease;
+            cursor: pointer;
         }
 
-        .gallery img:hover {
-            transform: scale(1.05);
+        .masonry img:hover {
+            opacity: 0.8;
+        }
+
+        /* LIGHTBOX */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
         }
 
         /* FOOTER */
         footer {
             text-align: center;
-            padding: 50px;
-            background: #def2f1;
-            margin-top: 40px;
+            padding: 60px;
+            background: #111;
+            margin-top: 60px;
         }
 
         .contact-btn {
             display: inline-block;
             margin-top: 20px;
             padding: 12px 28px;
-            background: #2b7a78;
-            color: white;
-            border-radius: 6px;
+            background: #e5e5e5;
+            color: #111;
+            border-radius: 4px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             transition: 0.3s;
         }
 
         .contact-btn:hover {
-            background: #205f5d;
+            background: #cfcfcf;
+        }
+
+        @media (max-width: 900px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .masonry {
+                column-count: 1;
+            }
         }
     </style>
 </head>
@@ -155,28 +190,29 @@
 <header id="header">
     <h1>KHOA PHOTOGRAPHY</h1>
     <nav>
-        <a href="#about">Giới thiệu</a>
-        <a href="#gallery">Bộ sưu tập</a>
-        <a href="#contact">Liên hệ</a>
+        <a href="#about">GIỚI THIỆU</a>
+        <a href="#gallery">BỘ SƯU TẬP</a>
+        <a href="#contact">LIÊN HỆ</a>
     </nav>
 </header>
 
 <section class="hero">
-    <h2>Khoảnh khắc – Ánh sáng – Cảm xúc</h2>
+    <h2>Cinematic Moments</h2>
 </section>
 
 <section class="section fade" id="about">
-    <h3>Giới thiệu</h3>
-    <p style="max-width: 800px; line-height: 1.7; font-size: 18px;">
-        Mình là Khoa – nhiếp ảnh gia theo đuổi phong cách tự nhiên, tươi sáng và cảm xúc.
-        Mỗi bức ảnh là một câu chuyện, một khoảnh khắc không thể lặp lại.
-        Portfolio này là nơi mình lưu giữ những tác phẩm đẹp nhất trong hành trình sáng tạo.
+    <h3>GIỚI THIỆU</h3>
+    <p style="line-height: 1.8; max-width: 800px;">
+        Mình là Khoa – nhiếp ảnh gia theo đuổi phong cách điện ảnh, tối giản và cảm xúc.
+        Mỗi bức ảnh là một khung hình kể chuyện, một khoảnh khắc mang chiều sâu.
+        Portfolio này là nơi mình lưu giữ những tác phẩm mang dấu ấn cá nhân nhất.
     </p>
 </section>
 
 <section class="section fade" id="gallery">
-    <h3>Bộ sưu tập</h3>
-    <div class="gallery">
+    <h3>BỘ SƯU TẬP</h3>
+
+    <div class="masonry">
         <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?auto=format&fit=crop&w=800&q=80">
         <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80">
         <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80">
@@ -187,28 +223,46 @@
 </section>
 
 <footer id="contact">
-    <h3>Liên hệ hợp tác</h3>
+    <h3>LIÊN HỆ HỢP TÁC</h3>
     <p>Email: khoaphoto@example.com</p>
-    <a class="contact-btn" href="mailto:khoaphoto@example.com">Gửi email</a>
+    <a class="contact-btn" href="mailto:khoaphoto@example.com">Gửi Email</a>
 </footer>
 
+<!-- LIGHTBOX -->
+<div id="lightbox">
+    <img src="">
+</div>
+
 <script>
-    // Header đổi màu khi scroll
+    // Header scroll effect
     const header = document.getElementById("header");
     window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) header.classList.add("scrolled");
-        else header.classList.remove("scrolled");
+        header.classList.toggle("scrolled", window.scrollY > 50);
     });
 
-    // Fade-in khi cuộn
+    // Fade-in on scroll
     const fades = document.querySelectorAll(".fade");
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add("show");
         });
     }, { threshold: 0.2 });
-
     fades.forEach(el => observer.observe(el));
+
+    // Lightbox
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = lightbox.querySelector("img");
+
+    document.querySelectorAll(".masonry img").forEach(img => {
+        img.addEventListener("click", () => {
+            lightboxImg.src = img.src;
+            lightbox.style.display = "flex";
+        });
+    });
+
+    lightbox.addEventListener("click", () => {
+        lightbox.style.display = "none";
+    });
 </script>
 
 </body>
